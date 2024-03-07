@@ -143,12 +143,14 @@ class Environment:
         agents=None,  # dictionary of agents, accessible by their unique identifiers
         targets=None,  # list of targets in the world
         counter=0,  # global counter for synchronizing "time"
+        obstacle_space=None
     ):
         self.world_origin = world_origin
         self._agent = agent
         self.agents = agents if agents != None else {}
         self.targets = targets if targets != None else []
         self.counter = counter
+        self.obstacle_space = obstacle_space if obstacle_space != None else []
 
     def visible_targets(self):
         """
@@ -321,6 +323,9 @@ class Environment:
         Add a target to the world
         """
         self.targets.append(T)
+    
+    def add_obstacle(self, O):
+        self.obstacle_space.append(O)
 
     def transform_from_local_coord(self, x, y, w=1, h=1):
         """
@@ -344,6 +349,7 @@ class Environment:
 
         r = y
         return mfn.pol2car(self.agent.get_origin(), r, theta)
+
 
     def serialize_agent_tracks(self):
         """
